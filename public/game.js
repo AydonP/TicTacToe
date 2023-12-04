@@ -44,7 +44,7 @@ async function next_game(){
 
 
     if (result == 0) {
-        await type_and_untype("Wait we DREW!?");
+        await type_and_untype("Wait, we DREW!?");
         await type_and_untype("...no, it must be a bug");
         await clear_game();
         await next_move();
@@ -60,7 +60,8 @@ async function next_game(){
         await type_and_untype("Wait WHAT!!!");
         await type_and_untype("YOU WON!");
         await type_and_untype("NO, that's not possible!!");
-        await type_and_untype("Meh, whatever. I'm gone");
+        await type_and_untype("Meh, whatever");
+        await type_and_untype("I'm out of here");
         await clear_game();
         await end_round(key);
     }
@@ -95,7 +96,7 @@ async function next_move(){
 
 async function alert_won(element){
     await type_text(element);
-    alert("You won!")
+    alert("Congrats, owl! You beat the Winter Grinch! This means that school can officially be let out now! However, I heard that a few other owls are stuck in school still as the Winter Grinch told their teacher not to let them out! You must help them! https://scratch.mit.edu/projects/934669354");
 }
 
 
@@ -106,14 +107,14 @@ window.onload = async function(){
     if (localStorage.getItem("key") !== null) {
         document.body.innerHTML = "<iup-terminal id=\"main_terminal\"></iup-terminal>";
         let element = document.getElementById("main_terminal").getElementsByClassName("terminal_text")[0];
-        element.innerText = "Error: \"Executable not found at /usr/bin/bot.sh\"";
+        element.innerText = "Error: \"Executable not found at /usr/bin/TicTacToe.sh\"";
         alert_won(element);
         return;
     }
 
     text_terminal = document.getElementById("typing_terminal").getElementsByClassName("terminal_text")[0];
     await type_and_untype("Hello there human!");
-    await type_and_untype("I have taken your link,");
+    await type_and_untype("I have stopped your winter,");
     await type_and_untype("and you can't get it back!");
     await type_and_untype("That is, unless you beat me");
     await type_and_untype(".. at tic tac toe!");
