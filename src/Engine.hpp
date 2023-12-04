@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Board.hpp"
+#include "rand.hpp"
 
 #define MAX_DEPTH 10
 
@@ -37,6 +38,12 @@ struct Move
 	}
 };
 
+
+bool minimax_get_random() {
+	std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
+	return dist(rng);
+}
+
 Move minimax(Board board, Player player, int depth = MAX_DEPTH) {
 
 
@@ -59,10 +66,17 @@ Move minimax(Board board, Player player, int depth = MAX_DEPTH) {
 	{
 		Player move_score = minimax(board.copy_set(move, player), opponent(player), depth - 1).eval;
 
+		if (move_score == score) {
+			best_move = minimax_get_random() ? move : best_move;
+		}
+
 		int old_score = score;
+
 		score = best_score(player, move_score, score);
+
 		if (score != old_score)
 			best_move = move;
+
 	}
 
 	return Move{score, best_move};

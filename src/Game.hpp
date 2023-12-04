@@ -1,5 +1,5 @@
 
-#include <random>
+#include "rand.hpp"
 
 const char* key = "continue";
 const char* empty_string = "NULL";
@@ -74,8 +74,6 @@ public:
 
 
 private:
-	static std::random_device dev;
-	static std::mt19937 rng;
 
 	bool get_random() {
 		std::uniform_int_distribution<std::mt19937::result_type> dist(0, prob);
@@ -83,5 +81,3 @@ private:
 	}
 };
 
-std::random_device Game::dev{};
-std::mt19937 Game::rng{ Game::dev() };

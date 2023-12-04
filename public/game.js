@@ -106,7 +106,7 @@ window.onload = async function(){
     if (localStorage.getItem("key") !== null) {
         document.body.innerHTML = "<iup-terminal id=\"main_terminal\"></iup-terminal>";
         let element = document.getElementById("main_terminal").getElementsByClassName("terminal_text")[0];
-        element.innerText = "Executable not found at /usr/bin/bot.sh ";
+        element.innerText = "Error: \"Executable not found at /usr/bin/bot.sh\"";
         alert_won(element);
         return;
     }
