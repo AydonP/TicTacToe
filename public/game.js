@@ -114,8 +114,11 @@ window.onload = function(){
     if (localStorage.getItem("key") !== null) {
         document.body.innerHTML = "<iup-terminal id=\"main_terminal\"></iup-terminal>";
         let element = document.getElementById("main_terminal").getElementsByClassName("terminal_text")[0];
-        element.innerText = "Executable not found at /usr/bin/Protector/KEY/" +  localStorage.getItem("key") + "/bot.sh";
+        element.innerText = "Executable not found at /usr/bin/bot.sh";
         type_text(element);
+        setTimeout(function () { //In timeout so that the dom changes would load.
+            alert("Hello World");
+        }, 1);
 
     }
 

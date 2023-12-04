@@ -200,8 +200,8 @@ iup-window > div{
 }
 
 #board_window > div {
-    height: calc(100vh - 85px - 1.5em);
-    width: calc(100vh - 85px - 1.5em);
+    height: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
+    width: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
     align-self: center;
 }
 
