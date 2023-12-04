@@ -55,12 +55,23 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+      - name: Get previous tag
+        id: previoustag
+        uses: 'WyriHaximus/github-action-get-previous-tag@v1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get next minor version
+        id: semver
+        uses: 'WyriHaximus/github-action-next-semvers@v1'
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.event.push.ref }}
+          tag: ${{ steps.semver.outputs.patch }}
         run: >-
-          gh release create ${{ github.ref_name }}
+          gh release create "${tag}"
           "public.zip"
           --generate-notes
-          --title "Version ${ref##*/}"
+          --title "Version ${tag}"
