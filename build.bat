@@ -1,2 +1,2 @@
 cd out
-cmake --build . && cd ..
+cmake --build . && cd .. || cd ..

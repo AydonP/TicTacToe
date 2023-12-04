@@ -15,9 +15,9 @@ class Box extends HTMLElement {
         super();
     }
 
-    apply_status() {
+    apply_status(){
         let element = this.firstElementChild;
-        if (element != null) {
+        if(element != null){
             switch (Number(this.status)) {
                 case Status.empty:
                     element.classList.remove("snowman");
@@ -30,7 +30,7 @@ class Box extends HTMLElement {
                 case Status.com:
                     element.classList.remove("snowman");
                     element.classList.add("snowflake");
-
+                    
                     break;
                 default:
                     break;
@@ -38,8 +38,8 @@ class Box extends HTMLElement {
         }
     }
 
-    apply_style() {
-        if (this.firstChild !== null)
+    apply_style(){
+        if(this.firstChild !== null)
             this.firstChild.style = this.style;
     }
 
@@ -74,13 +74,13 @@ class Board extends HTMLElement {
     columns = 3;
     rows = 3;
 
-    template(div, count = 9) {
+    template(div, count = 9){
         for (let i = 0; i < count; i++) {
             let child = document.createElement("iup-box");
-            child.onclick = function () {
+            child.onclick = function(){
                 click_handler(i);
             };
-            child.classList.add("button" + i)
+            child.classList.add( "button" + i)
             div.appendChild(child);
         }
         return div;
@@ -90,14 +90,14 @@ class Board extends HTMLElement {
         super();
     }
 
-    clear() {
+    clear(){
         this.childNodes.forEach(child => {
             child.status = Status.empty();
         });
     }
 
-    apply_size() {
-
+    apply_size(){
+        
         if (size > this.childElementCount) {
             this.template(this.firstChild, size - this.childElementCount)
             this.clear()
@@ -110,13 +110,13 @@ class Board extends HTMLElement {
         }
     }
 
-    apply_style() {
-        if (this.firstChild !== null)
+    apply_style(){
+        if(this.firstChild !== null)
             this.firstChild.style = this.style;
     }
 
-    apply_grid() {
-        if (this.firstChild !== null) {
+    apply_grid(){
+        if(this.firstChild !== null){
             this.firstChild.style["grid-template-columns"] = "repeat(" + this.columns + ", 1fr)";
             this.firstChild.style["grid-template-rows"] = "repeat(" + this.rows + ", 1fr)";
         }
@@ -154,8 +154,8 @@ class Terminal extends HTMLElement {
         super();
     }
 
-    apply_style() {
-        if (this.firstChild !== null)
+    apply_style(){
+        if(this.firstChild !== null)
             this.firstChild.style = this.style;
     }
 
@@ -185,8 +185,8 @@ class Window extends HTMLElement {
         super();
     }
 
-    apply_style() {
-        if (this.firstChild !== null)
+    apply_style(){
+        if(this.firstChild !== null)
             this.firstChild.style = this.style;
     }
 
@@ -207,31 +207,65 @@ class Window extends HTMLElement {
 
 customElements.define("iup-window", Window);
 
-function _type_text(element, durration, animation) {
+//Typing Text Functions
+
+
+function _type_text(element, then, durration, animation){
     element.classList.add("Typing");
     element.animate(animation, {
-        duration: element.innerText.length * durration,
-        iterations: 1,
-        easing: "steps(" + element.innerText.length + ", end)",
-        fill: "forwards"
-    }).finished.then(a => {
-        a.commitStyles();
-        a.cancel();
-    });
+            duration: element.innerText.length * durration,
+            iterations: 1,
+            easing: "steps(" + element.innerText.length + ", end)",
+            fill: "forwards"
+        }).finished.then(a => {
+            a.commitStyles();
+            a.cancel();
+            then();
+          });
 
     return element;
 }
 
-function type_text(element, durration = 10) {
-    return _type_text(element, durration, [
-        { maxWidth: "0" },
-        { maxWidth: element.innerText.length + "ch" },
+function type_text(element, then, durration = 25){
+    return _type_text(element, then, durration, [
+        { maxWidth: "0"},
+        { maxWidth: element.innerText.length + "ch"},
     ]);
 }
 
-function untype_text(element, durration = 10) {
-    return _type_text(element, durration, [
-        { maxWidth: `min(100%, ${element.innerText.length}ch)` },
-        { maxWidth: "0" }
+function untype_text(element, then, durration = 25){
+    return _type_text(element, then, durration, [
+        { maxWidth: `min(100%, ${element.innerText.length}ch)`},
+        { maxWidth: "0"}
     ]);
+}
+
+//Note: Text Terminal is set at window.onload
+function just_type(text) {
+    text_terminal.innerHTML = text;
+    type_text(text_terminal, function() {});
+    if (text == "I don't even need to check this move!") {
+        text_terminal.innerHTML = "<div>I don't even need to check</div><br><div>this move!</div>"
+        text_terminal.style.height = "auto";
+        type_text(text_terminal.firstChild, function() {});
+    } else {
+        text_terminal.innerHTML = text;
+        text_terminal.style.height = "1.5em";
+        type_text(text_terminal, function() {});
+    }
+}
+
+function type_and_untype(text, then) {
+
+
+    text_terminal.innerHTML = text;
+    text_terminal.style.height = "1.5em";
+    type_text(text_terminal, function() {
+        setTimeout(function() {
+            untype_text(text_terminal, function() {
+                then();
+            });
+        }, 2000);
+    });
+
 }

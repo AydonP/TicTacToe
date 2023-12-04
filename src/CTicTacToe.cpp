@@ -1,100 +1,80 @@
 ﻿
 #include "Engine.hpp"
-#include "CTicTacToe.h"
+#include "Game.hpp"
+
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
-#include <random>
+#else
+#include <iostream>
+#endif
+
 
 using namespace std;
 
 
-static Board board{};
-static Player player = Player1;
+#ifndef __EMSCRIPTEN__
 
-const char* key = "winterkey3";
-const char* empty_string = "NULL";
+void print_board(Board board) {
+	for (size_t i = 0; i < 9; i++)
+	{
+		std::cout << board[i];
+		if ((i % 3) == 2)
+			std::cout << "\n";
+	}
+}
 
 int main()
 {
+	Game game{12};
+	while (1)
+	{
+		while (!game.has_finished())
+		{
+			game.ai_move();
+			print_board(game.board);
 
-}
+			if (game.has_finished())
+				continue;
 
-static int prob = 12; // Difficulty
-
-static std::random_device dev;
-static std::mt19937 rng(dev());
-
-bool get_random() {
-	std::uniform_int_distribution<std::mt19937::result_type> dist(0, prob);
-
-	return dist(rng) == prob;
-}
-
-extern "C" {
-
-
-	EMSCRIPTEN_KEEPALIVE
-	int reset() {
-		int result;
-		if (board.has_won(Player1))
-			result = 1;
-		else if (board.has_won(Player2))
-			result = 2;
-		else
-			result = 0;
-
-		if (prob != 0)
-			prob -= 1;
-
-		board = Board();
-		player = Player1;
-		return result;
-	}
-
-	EMSCRIPTEN_KEEPALIVE
-		int has_finished() {
-		return board.is_empty() || board.has_won(Player1) || board.has_won(Player2);
-	}
-
-	EMSCRIPTEN_KEEPALIVE
-	int ai_move() {
-		if (player == Player2) {
-			return -1;
+			std::cout << "> ";
+			int move;
+			std::cin >> move;
+			game.player_move(move);
 		}
-
-		if (get_random()) {
-			auto moves = board.available_moves();
-			auto move = moves[std::uniform_int_distribution<std::mt19937::result_type>(0, moves.size() - 1)(rng)];
-			board[move] = Player1;
-			player = Player2;
-			return move + 100;
-		}
-
-		Move move = minimax(board, Player1);
-		board[move.move] = Player1;
-
-
-
-		player = Player2;
-		return move.move;
+		game.reset();
+		std::cout << "--------\n";
 	}
+}
 
-	EMSCRIPTEN_KEEPALIVE
-	int player_move(int move) {
+#else
 
-		if (player == Player1 || board[move] !=Neutral)
-			return -10;
+Game game{12};
 
-		board[move] = Player2;
-		player = Player1;
-		return move;
-	}
+EMSCRIPTEN_KEEPALIVE
+int reset() {
+	return game.reset();
+}
 
-	EMSCRIPTEN_KEEPALIVE
-	const char* get_key() {
-		if (board.has_won(Player2))
-			return key;
+EMSCRIPTEN_KEEPALIVE
+int has_finished() {
+	return game.has_finished();
+}
 
-		return empty_string;
-	}
+EMSCRIPTEN_KEEPALIVE
+int ai_move() {
+	return game.ai_move();
+}
+
+EMSCRIPTEN_KEEPALIVE
+int player_move(int move) {
+	return game.player_move(move);
 
 }
+
+EMSCRIPTEN_KEEPALIVE
+const char* get_key() {
+	return game.get_key();
+}
+
+#endif
+
