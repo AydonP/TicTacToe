@@ -58,9 +58,9 @@ jobs:
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ github.event.push.ref }}
         run: >-
           gh release create ${{ github.ref_name }}
           "public.zip"
           --generate-notes
-          --title "Version ${tag#v}"
+          --title "Version ${ref##*/}"
