@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Build and Deploy
 
 on:
   # Runs on pushes targeting the default branch
@@ -38,13 +38,15 @@ jobs:
       - run: emcc -v
       - uses: tecolicom/actions-use-apt-tools@v1
         with:
-          tools: 'cmake'
+          tools: 'cmake zip'
           cache: yes
       - run: ./configure.sh
       - run: ./build.sh
       - name: Setup Pages
         uses: actions/configure-pages@v3
+      - run: rm -rf out/src/CMakeFiles out/src/cmake_install.cmake
       - run: ls -lR out/src
+      - run: zip public.zip out/*
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
@@ -61,4 +63,5 @@ jobs:
           gh release create "$GITHUB_REF_NAME" \
               --repo="$GITHUB_REPOSITORY" \
               --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
-              --generate-notes
+              --generate-notes \
+              public.zip
