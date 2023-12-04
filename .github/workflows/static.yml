@@ -36,8 +36,8 @@ jobs:
         with:
           tools: 'cmake'
           cache: yes
-      - uses: ./configure.sh
-      - uses: ./build.sh
+      - run: ./configure.sh
+      - run: ./build.sh
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
