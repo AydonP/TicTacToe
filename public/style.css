@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'Terminal';
     src: url(fonts/NotoSansMono-Regular.ttf) format('truetype');
-  }
-
-:root{
-    --ellipsis-loading-speed:.95s;
 }
 
-html, body{
+:root {
+    --ellipsis-loading-speed: .95s;
+}
+
+html, body {
     padding: 0;
     margin: 0;
     width: 100%;
@@ -18,20 +18,20 @@ html, body{
 
 /*Board*/
 
-iup-box{
+iup-box {
     display: block;
     width: calc(100% - 40px);
     height: calc(100% - 40px);
     padding: 20px;
 }
 
-iup-box > div {
-    width: 100%;
-    height: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+    iup-box > div {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
 .snowman {
     background-image: url("snowman.png");
@@ -42,7 +42,7 @@ iup-box > div {
     background-image: url("snowflake.png");
 }
 
-iup-box > div > img{
+iup-box > div > img {
     width: 100%;
     height: 100%;
 }
@@ -54,13 +54,13 @@ iup-board {
     width: 100%;
 }
 
-iup-board > div {
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-    height: 100%;
-    width: 100%;
-}
+    iup-board > div {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        height: 100%;
+        width: 100%;
+    }
 
 
 /*Terminal*/
@@ -71,35 +71,30 @@ iup-terminal {
     background-color: #0f0f0f;
 }
 
-iup-terminal > div {
-    height: calc(100% - 4em);
-    width: calc(100% - 4em);
-    padding: 2em;
+    iup-terminal > div {
+        height: calc(100% - 4em);
+        width: calc(100% - 4em);
+        padding: 2em;
+        font-family: 'Terminal';
+        font-size: .8em;
+        line-height: 2em;
+        text-overflow: ellipsis;
+        color: hsl(144, 60%, 50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
 
-    font-family: 'Terminal';
-    font-size: .8em;
-    line-height: 2em;
-    text-overflow:ellipsis;
-
-    color: hsl(144, 60%, 50%);
-
-    display: flex;
-    flex-direction: column;
-    
-    justify-content: flex-end;
-    
-}
-
-iup-terminal.nowrap > div > div > span.terminal_text{
-    width: 100%;
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow:ellipsis;
-}
+    iup-terminal.nowrap > div > div > span.terminal_text {
+        width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
 
-.loading_ellipsis{
+.loading_ellipsis {
     display: inline-block;
     vertical-align: bottom;
 }
@@ -107,7 +102,7 @@ iup-terminal.nowrap > div > div > span.terminal_text{
 .loading_ellipsis {
     overflow: hidden;
     max-width: 0;
-    animation: loading_ellipsis steps(4 , end) var(--ellipsis-loading-speed) infinite;
+    animation: loading_ellipsis steps(4, end) var(--ellipsis-loading-speed) infinite;
 }
 
 @keyframes loading_ellipsis {
@@ -127,51 +122,50 @@ iup-terminal.nowrap > div > div > span.terminal_text{
 iup-window {
     display: block;
     background-color: antiquewhite;
-
     width: 200px;
     height: 200px;
 }
 
-iup-window > header{
-    width: calc(100% - 10px);
-    height: 1.5em;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: rgb(62, 118, 167);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
+    iup-window > header {
+        width: calc(100% - 10px);
+        height: 1.5em;
+        padding-left: 5px;
+        padding-right: 5px;
+        background-color: rgb(62, 118, 167);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
 
-iup-window > header > div {
-    margin-right: auto;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow:ellipsis;
-    padding-right: 5px;
-    font-size: .8em;
-}
+        iup-window > header > div {
+            margin-right: auto;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding-right: 5px;
+            font-size: .8em;
+        }
 
-iup-window > header > button {
-    border-style: inset;
-    font-size: .7em;
-}
+        iup-window > header > button {
+            border-style: inset;
+            font-size: .7em;
+        }
 
-iup-window > main{
-    width: 100%;
-    height: calc(100% - 1.5em);
-}
+    iup-window > main {
+        width: 100%;
+        height: calc(100% - 1.5em);
+    }
 
-iup-window > div{
-    width: 100%;
-    height: calc(100% - 1.5em);
-}
+    iup-window > div {
+        width: 100%;
+        height: calc(100% - 1.5em);
+    }
 
 .Typing {
     overflow: hidden;
     overflow-wrap: break-word;
     white-space: nowrap;
-    text-overflow:clip;
+    text-overflow: clip;
     height: 1.5em;
 }
 
@@ -199,17 +193,17 @@ iup-window > div{
     flex-direction: column;
 }
 
-#board_window > div {
-    height: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
-    width: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
-    align-self: center;
-}
+    #board_window > div {
+        height: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
+        width: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
+        align-self: center;
+    }
 
 iup-box {
     background-color: #80808021;
 }
 
-iup-box:hover {
-    background-color: #808080;
-    border-radius: 20px;
-}
+    iup-box:hover {
+        background-color: #808080;
+        border-radius: 20px;
+    }

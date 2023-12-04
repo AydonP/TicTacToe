@@ -18,7 +18,7 @@ int main()
 
 }
 
-static int prob = 8;
+static int prob = 12; // Difficulty
 
 static std::random_device dev;
 static std::mt19937 rng(dev());
