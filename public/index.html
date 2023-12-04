@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    
+    
+    <template id="_Box">
+        <div >
+            
+        </div>
+    </template>
+
+    <template id="_Terminal">
+        <div>
+            <div>
+                <span class="terminal_text">
+                </span>
+                <span class="loading_ellipsis">...</span>
+            </div>
+        </div>
+        
+    </template>
+
+    <template id="_Window">
+            <header>
+                <div class="window_title">
+                    
+                </div>
+                <button>–</button>
+                <button>x</button>
+            </header>
+    </template>
+
+    <script src="CTicTacToe.js"></script>
+    <script src="ui.js"></script>
+    <script src="game.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+<body>
+
+
+    <iup-window id="board_window">
+        <div>
+            <iup-board></iup-board>
+        </div>
+    </iup-window>
+    <iup-window id="terminal_window">
+        <div>
+            <iup-terminal id="typing_terminal">
+            </iup-terminal>
+        </div>
+    </iup-window>
+    <iup-terminal id="main_terminal">
+    </iup-terminal>
+</body>
+</html>

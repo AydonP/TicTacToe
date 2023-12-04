@@ -1,0 +1,1 @@
+emrun "out/src"
