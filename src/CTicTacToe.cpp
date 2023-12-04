@@ -12,8 +12,7 @@
 using namespace std;
 
 
-#ifndef __EMSCRIPTEN__
-
+#ifndef __EMSCRIPTEN__ 
 void print_board(Board board) {
 	for (size_t i = 0; i < 9; i++)
 	{
@@ -50,30 +49,32 @@ int main()
 
 Game game{12};
 
-EMSCRIPTEN_KEEPALIVE
-int reset() {
-	return game.reset();
-}
+extern "C" {
+	EMSCRIPTEN_KEEPALIVE
+		int reset() {
+		return game.reset();
+	}
 
-EMSCRIPTEN_KEEPALIVE
-int has_finished() {
-	return game.has_finished();
-}
+	EMSCRIPTEN_KEEPALIVE
+		int has_finished() {
+		return game.has_finished();
+	}
 
-EMSCRIPTEN_KEEPALIVE
-int ai_move() {
-	return game.ai_move();
-}
+	EMSCRIPTEN_KEEPALIVE
+		int ai_move() {
+		return game.ai_move();
+	}
 
-EMSCRIPTEN_KEEPALIVE
-int player_move(int move) {
-	return game.player_move(move);
+	EMSCRIPTEN_KEEPALIVE
+		int player_move(int move) {
+		return game.player_move(move);
 
-}
+	}
 
-EMSCRIPTEN_KEEPALIVE
-const char* get_key() {
-	return game.get_key();
+	EMSCRIPTEN_KEEPALIVE
+		const char* get_key() {
+		return game.get_key();
+	}
 }
 
 #endif
