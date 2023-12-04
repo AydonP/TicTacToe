@@ -40,11 +40,12 @@ jobs:
       - run: ./build.sh
       - name: Setup Pages
         uses: actions/configure-pages@v3
+      - run: ls -lR out/src
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           # Upload entire repository
-          path: '.'
+          path: './out/src'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
