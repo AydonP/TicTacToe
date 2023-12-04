@@ -33,8 +33,9 @@ jobs:
         uses: actions/checkout@v3
       - uses: mymindstorm/setup-emsdk@v13
         with: 
-          version: 3.1.50
+          version: latest
           actions-cache-folder: 'emsdk-cache'
+      - run: emvv -v
       - uses: tecolicom/actions-use-apt-tools@v1
         with:
           tools: 'cmake'
