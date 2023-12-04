@@ -36,8 +36,8 @@ jobs:
         with:
           tools: 'cmake'
           cache: yes
-      - uses: ./${GITHUB_WORKSPACE}/configure.sh
-      - uses: ./${GITHUB_WORKSPACE}/build.sh
+      - uses: ./configure.sh
+      - uses: ./build.sh
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
