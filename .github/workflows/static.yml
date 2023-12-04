@@ -35,7 +35,7 @@ jobs:
         with: 
           version: latest
           actions-cache-folder: 'emsdk-cache'
-      - run: emvv -v
+      - run: emcc -v
       - uses: tecolicom/actions-use-apt-tools@v1
         with:
           tools: 'cmake'
