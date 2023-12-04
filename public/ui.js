@@ -208,64 +208,55 @@ class Window extends HTMLElement {
 customElements.define("iup-window", Window);
 
 //Typing Text Functions
+const delay = ms => new Promise(res => setTimeout(res, 2000));
 
-
-function _type_text(element, then, durration, animation){
+async function _type_text(element, durration, reverse = false){
     element.classList.add("Typing");
-    element.animate(animation, {
+    let animation = element.animate([
+            { maxWidth: "0"},
+            { maxWidth: element.innerText.length + "ch"},],
+        {
             duration: element.innerText.length * durration,
             iterations: 1,
             easing: "steps(" + element.innerText.length + ", end)",
             fill: "forwards"
-        }).finished.then(a => {
-            a.commitStyles();
-            a.cancel();
-            then();
-          });
+        });
+    
+    if(reverse)
+        animation.reverse();
 
+    await animation.finished;
+    animation.commitStyles();
     return element;
 }
 
-function type_text(element, then, durration = 25){
-    return _type_text(element, then, durration, [
-        { maxWidth: "0"},
-        { maxWidth: element.innerText.length + "ch"},
-    ]);
+async function type_text(element, durration = 25){
+    await _type_text(element, durration, false);
 }
 
-function untype_text(element, then, durration = 25){
-    return _type_text(element, then, durration, [
-        { maxWidth: `min(100%, ${element.innerText.length}ch)`},
-        { maxWidth: "0"}
-    ]);
+async function untype_text(element, durration = 25){
+    await _type_text(element, durration, true);
 }
 
 //Note: Text Terminal is set at window.onload
-function just_type(text) {
+async function just_type(text) {
     text_terminal.innerHTML = text;
-    type_text(text_terminal, function() {});
     if (text == "I don't even need to check this move!") {
-        text_terminal.innerHTML = "<div>I don't even need to check</div><br><div>this move!</div>"
+        text_terminal.innerHTML = "<span>I don't even need to check</span><br><span>this move!</span>"
         text_terminal.style.height = "auto";
-        type_text(text_terminal.firstChild, function() {});
+        await type_text(text_terminal);
     } else {
         text_terminal.innerHTML = text;
         text_terminal.style.height = "1.5em";
-        type_text(text_terminal, function() {});
+        await type_text(text_terminal);
     }
 }
 
-function type_and_untype(text, then) {
 
-
+async function type_and_untype(text) {
     text_terminal.innerHTML = text;
     text_terminal.style.height = "1.5em";
-    type_text(text_terminal, function() {
-        setTimeout(function() {
-            untype_text(text_terminal, function() {
-                then();
-            });
-        }, 2000);
-    });
-
+    await type_text(text_terminal);
+    await delay(2000);
+    await untype_text(text_terminal);
 }
