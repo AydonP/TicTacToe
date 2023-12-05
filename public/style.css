@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Terminal';
-    src: url(fonts/NotoSansMono-Regular.ttf) format('truetype');
+    src: url(NotoSansMono-Regular.ttf) format('truetype');
   }
 
 :root{
