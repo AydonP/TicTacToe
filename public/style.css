@@ -78,7 +78,6 @@ iup-terminal > div {
 
     font-family: 'Terminal';
     font-size: .8em;
-    line-height: 2em;
     text-overflow:ellipsis;
 
     color: hsl(144, 60%, 50%);
