@@ -76,7 +76,7 @@ public:
 private:
 
 	bool get_random() {
-		std::uniform_int_distribution<std::mt19937::result_type> dist(0, prob);
+		static std::uniform_int_distribution<std::mt19937::result_type> dist(0, prob);
 		return dist(rng) == prob;
 	}
 };

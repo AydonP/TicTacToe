@@ -3,12 +3,6 @@
 #include "Board.hpp"
 #include "rand.hpp"
 
-#define MAX_DEPTH 10
-
-enum Values
-{
-	has_won = 100,
-};
 
 Player best_score(Player player, Player a, Player b) {
 	if (a == Invalid)
@@ -40,11 +34,11 @@ struct Move
 
 
 bool minimax_get_random() {
-	std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
+	static std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
 	return dist(rng);
 }
 
-Move minimax(Board board, Player player, int depth = MAX_DEPTH) {
+Move minimax(Board board, Player player) {
 
 
 	if (board.has_won(player))
@@ -53,8 +47,6 @@ Move minimax(Board board, Player player, int depth = MAX_DEPTH) {
 	if (board.is_empty())
 		return { Neutral, -1};
 
-	if (depth == 0)
-		return { Neutral, -1 };
 
 
 	auto moves = board.available_moves();
@@ -64,7 +56,7 @@ Move minimax(Board board, Player player, int depth = MAX_DEPTH) {
 
 	for (auto& move : moves)
 	{
-		Player move_score = minimax(board.copy_set(move, player), opponent(player), depth - 1).eval;
+		Player move_score = minimax(board.copy_set(move, player), opponent(player)).eval;
 
 		if (move_score == score) {
 			best_move = minimax_get_random() ? move : best_move;
