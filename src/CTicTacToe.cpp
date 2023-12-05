@@ -51,28 +51,28 @@ Game game{12};
 
 extern "C" {
 	EMSCRIPTEN_KEEPALIVE
-		int reset() {
+	int reset() {
 		return game.reset();
 	}
 
 	EMSCRIPTEN_KEEPALIVE
-		int has_finished() {
+	int has_finished() {
 		return game.has_finished();
 	}
 
 	EMSCRIPTEN_KEEPALIVE
-		int ai_move() {
+	int ai_move() {
 		return game.ai_move();
 	}
 
 	EMSCRIPTEN_KEEPALIVE
-		int player_move(int move) {
+	int player_move(int move) {
 		return game.player_move(move);
 
 	}
 
 	EMSCRIPTEN_KEEPALIVE
-		const char* get_key() {
+	const char* get_key() {
 		return game.get_key();
 	}
 }
