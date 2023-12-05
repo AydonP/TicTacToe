@@ -48,7 +48,7 @@ jobs:
         uses: actions/configure-pages@v3
       - run: rm -rf out/src/CMakeFiles out/src/cmake_install.cmake
       - run: ls -lR out/src
-      - run: zip public.zip out/*
+      - run: zip public.zip out/src/*
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
