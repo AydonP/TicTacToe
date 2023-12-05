@@ -62,6 +62,7 @@ async function next_game(){
         await type_and_untype("NO, that's not possible!!");
         await type_and_untype("Meh, whatever");
         await type_and_untype("I'm out of here");
+        text_terminal.innerHTML = "";
         await clear_game();
         await end_round(key);
     }
@@ -114,7 +115,7 @@ window.onload = async function(){
 
     text_terminal = document.getElementById("typing_terminal").getElementsByClassName("terminal_text")[0];
     await type_and_untype("Hello there human!");
-    await type_and_untype("I have stopped your winter,");
+    await type_and_untype("I have stolen your winter,");
     await type_and_untype("and you can't get it back!");
     await type_and_untype("That is, unless you beat me");
     await type_and_untype(".. at tic tac toe!");
