@@ -1,4 +1,5 @@
 # TicTacToe
+<img src="https://github.com/AydonP/TicTacToe/actions/workflows/static.yml/badge.svg" alt="Build status badge">
 
 ## About
 A version of Tic Tac Toe
