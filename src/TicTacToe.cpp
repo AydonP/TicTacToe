@@ -47,7 +47,7 @@ int main()
 
 #else
 
-Game game{12};
+Game game{8};
 
 extern "C" {
 	EMSCRIPTEN_KEEPALIVE

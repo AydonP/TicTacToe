@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (CTicTacToe "CTicTacToe.cpp"    )
+add_executable (CTicTacToe "TicTacToe.cpp")
 
 add_custom_command(TARGET CTicTacToe POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/public $<TARGET_FILE_DIR:CTicTacToe>)
 if (CMAKE_VERSION VERSION_GREATER 3.12)

@@ -18,14 +18,14 @@ html, body{
 
 /*Board*/
 
-iup-box{
+game-box{
     display: block;
     width: calc(100% - 40px);
     height: calc(100% - 40px);
     padding: 20px;
 }
 
-iup-box > div {
+game-box > div {
     width: 100%;
     height: 100%;
     background-size: contain;
@@ -42,19 +42,19 @@ iup-box > div {
     background-image: url("snowflake.png");
 }
 
-iup-box > div > img{
+game-box > div > img{
     width: 100%;
     height: 100%;
 }
 
 
-iup-board {
+game-board {
     display: block;
     height: 100%;
     width: 100%;
 }
 
-iup-board > div {
+game-board > div {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto;
@@ -65,20 +65,19 @@ iup-board > div {
 
 /*Terminal*/
 
-iup-terminal {
+game-terminal {
     display: block;
     height: 100%;
     background-color: #0f0f0f;
 }
 
-iup-terminal > div {
+game-terminal > div {
     height: calc(100% - 4em);
     width: calc(100% - 4em);
     padding: 2em;
 
     font-family: 'Terminal';
     font-size: .8em;
-    text-overflow:ellipsis;
 
     color: hsl(144, 60%, 50%);
 
@@ -89,41 +88,25 @@ iup-terminal > div {
     
 }
 
-iup-terminal.nowrap > div > div > span.terminal_text{
-    width: 100%;
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow:ellipsis;
-}
-
-
-.loading_ellipsis{
-    display: inline-block;
-    vertical-align: bottom;
-}
 
 .loading_ellipsis {
+    display: block;
+    vertical-align: bottom;
     overflow: hidden;
-    max-width: 0;
-    animation: loading_ellipsis steps(4 , end) var(--ellipsis-loading-speed) infinite;
+    animation: loading_ellipsis steps(4, end) var(--ellipsis-loading-speed) infinite;
+    margin-left: auto;
+    clip-path: xywh(0 0 0 100%);
 }
 
 @keyframes loading_ellipsis {
     to {
-        max-width: 4ch;
-    }
-}
-
-@-webkit-keyframes loading_ellipsis {
-    to {
-        max-width: 4ch;
+        clip-path: xywh(0 0 4ch 100%);
     }
 }
 
 
 /*Windows*/
-iup-window {
+game-window {
     display: block;
     background-color: antiquewhite;
 
@@ -131,7 +114,7 @@ iup-window {
     height: 200px;
 }
 
-iup-window > header{
+game-window > header{
     width: calc(100% - 10px);
     height: 1.5em;
     padding-left: 5px;
@@ -142,7 +125,7 @@ iup-window > header{
     align-items: center;
 }
 
-iup-window > header > div {
+game-window > header > div {
     margin-right: auto;
     overflow: hidden;
     white-space: nowrap;
@@ -151,29 +134,21 @@ iup-window > header > div {
     font-size: .8em;
 }
 
-iup-window > header > button {
+game-window > header > button {
     border-style: inset;
     font-size: .7em;
 }
 
-iup-window > main{
+game-window > main{
     width: 100%;
     height: calc(100% - 1.5em);
 }
 
-iup-window > div{
+game-window > div{
     width: 100%;
     height: calc(100% - 1.5em);
 }
 
-.Typing {
-    overflow: hidden;
-    overflow-wrap: break-word;
-    white-space: nowrap;
-    text-overflow:clip;
-    height: 1.5em;
-    display: inline-block;
-}
 
 #main_terminal {
     background-color: #1e1e1e;
@@ -205,11 +180,11 @@ iup-window > div{
     align-self: center;
 }
 
-iup-box {
+game-box {
     background-color: #80808021;
 }
 
-iup-box:hover {
+game-box:hover {
     background-color: #808080;
     border-radius: 20px;
 }

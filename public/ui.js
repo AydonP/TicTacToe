@@ -63,7 +63,7 @@ class Box extends HTMLElement {
     }
 }
 
-customElements.define("iup-box", Box);
+customElements.define("game-box", Box);
 
 
 class Board extends HTMLElement {
@@ -76,7 +76,7 @@ class Board extends HTMLElement {
 
     template(div, count = 9){
         for (let i = 0; i < count; i++) {
-            let child = document.createElement("iup-box");
+            let child = document.createElement("game-box");
             child.onclick = function(){
                 click_handler(i);
             };
@@ -142,7 +142,7 @@ class Board extends HTMLElement {
 }
 
 
-customElements.define("iup-board", Board);
+customElements.define("game-board", Board);
 
 
 class Terminal extends HTMLElement {
@@ -174,7 +174,7 @@ class Terminal extends HTMLElement {
     }
 }
 
-customElements.define("iup-terminal", Terminal);
+customElements.define("game-terminal", Terminal);
 
 class Window extends HTMLElement {
     static observedAttributes = ["style", "status"];
@@ -205,22 +205,23 @@ class Window extends HTMLElement {
     }
 }
 
-customElements.define("iup-window", Window);
+customElements.define("game-window", Window);
 
 //Typing Text Functions
 const delay = ms => new Promise(res => setTimeout(res, 2000));
 
 async function _type_text(element, durration, reverse = false){
-    element.classList.add("Typing");
-    let animation = element.animate([
-            { maxWidth: "0"},
-            { maxWidth: element.innerText.length + "ch"},],
+    let animation = element.animate(
+        [
+            { clipPath: "xywh(0 0 0 100%)"},
+            { clipPath: `xywh(0 0 ${element.innerText.length}ch 100%)` },
+        ],
         {
             duration: element.innerText.length * durration,
             iterations: 1,
             easing: "steps(" + element.innerText.length + ", end)",
-            fill: "forwards"
-        });
+            fill: "forwards",
+     });
     
     if(reverse)
         animation.reverse();
@@ -238,25 +239,3 @@ async function untype_text(element, durration = 25){
     await _type_text(element, durration, true);
 }
 
-//Note: Text Terminal is set at window.onload
-async function just_type(text) {
-    text_terminal.innerHTML = text;
-    if (text == "I don't even need to check this move!") {
-        text_terminal.innerHTML = "<span>I don't even need to check</span><br><span>this move!</span>"
-        text_terminal.style.height = "auto";
-        await type_text(text_terminal);
-    } else {
-        text_terminal.innerHTML = text;
-        text_terminal.style.height = "1.5em";
-        await type_text(text_terminal);
-    }
-}
-
-
-async function type_and_untype(text) {
-    text_terminal.innerHTML = text;
-    text_terminal.style.height = "1.5em";
-    await type_text(text_terminal);
-    await delay(2000);
-    await untype_text(text_terminal);
-}

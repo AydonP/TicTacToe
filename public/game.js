@@ -4,6 +4,22 @@ ai_move = Module.cwrap("ai_move", "number", []);
 get_key = Module.cwrap("get_key", "string", []);
 has_finished = Module.cwrap("has_finished", "int", []);
 
+
+//Note: Text Terminal is set at window.onload
+async function term_type(text) {
+    text_terminal.innerHTML = text;
+    await type_text(text_terminal);
+}
+
+
+async function term_type_untype(text) {
+    text_terminal.innerHTML = text;
+    await type_text(text_terminal);
+    await delay(1500);
+    await untype_text(text_terminal);
+}
+
+
 mutex = false;
 
 async function click_handler(i){
@@ -44,24 +60,24 @@ async function next_game(){
 
 
     if (result == 0) {
-        await type_and_untype("Wait, we DREW!?");
-        await type_and_untype("...no, it must be a bug");
+        await term_type_untype("Wait, we DREW!?");
+        await term_type_untype("...no, it must be a bug");
         await clear_game();
         await next_move();
     }
 
     if (result == 1) {
-        await type_and_untype("HA! I knew I would win!!");
+        await term_type_untype("HA! I knew I would win!!");
         await clear_game();
         await next_move();
     }
 
     if (result == 2) {
-        await type_and_untype("Wait WHAT!!!");
-        await type_and_untype("YOU WON!");
-        await type_and_untype("NO, that's not possible!!");
-        await type_and_untype("Meh, whatever");
-        await type_and_untype("I'm out of here");
+        await term_type_untype("Wait WHAT!!!");
+        await term_type_untype("YOU WON!");
+        await term_type_untype("NO, that's not possible!!");
+        await term_type_untype("Meh, whatever");
+        await term_type_untype("I'm out of here");
         text_terminal.innerHTML = "";
         await clear_game();
         await end_round(key);
@@ -86,10 +102,10 @@ async function next_move(){
     }
 
     if (is_throwing) {
-        just_type("I don't even need to check this move!")
+        term_type("I don't even need to check this move!")
     }
     else{
-        just_type("You never stood a chance!");
+        term_type("You never stood a chance!");
     }
     
     mutex = true;
@@ -106,7 +122,7 @@ window.onload = async function(){
 
 
     if (localStorage.getItem("key") !== null) {
-        document.body.innerHTML = "<iup-terminal id=\"main_terminal\"></iup-terminal>";
+        document.body.innerHTML = "<game-terminal id=\"main_terminal\"></game-terminal>";
         let element = document.getElementById("main_terminal").getElementsByClassName("terminal_text")[0];
         element.innerText = "Error: \"Executable not found at /usr/bin/TicTacToe.sh\"";
         alert_won(element);
@@ -114,12 +130,12 @@ window.onload = async function(){
     }
 
     text_terminal = document.getElementById("typing_terminal").getElementsByClassName("terminal_text")[0];
-    await type_and_untype("Hello there human!");
-    await type_and_untype("I have stolen your winter,");
-    await type_and_untype("and you can't get it back!");
-    await type_and_untype("That is, unless you beat me");
-    await type_and_untype(".. at tic tac toe!");
-    await type_and_untype("like that could ever happen");
+    await term_type_untype("Hello there human!");
+    await term_type_untype("I have stolen your winter,");
+    await term_type_untype("and you can't get it back!");
+    await term_type_untype("That is, unless you beat me");
+    await term_type_untype(".. at tic tac toe!");
+    await term_type_untype("like that could ever happen");
     next_move();
 
 }
