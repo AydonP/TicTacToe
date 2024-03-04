@@ -1,38 +1,48 @@
 
-#include "rand.hpp"
+#include <random>
+#include "Board.hpp"
 
-const char* key = "continue";
-const char* empty_string = "NULL";
+const std::string empty_string = "";
+
+struct Move
+{
+	Player eval;
+	int move;
+
+	Move(Player eval, int move) {
+		this->eval = eval;
+		this->move = move;
+	}
+};
 
 class Game {
-
 public:
-	int prob;
 
 	Board board{};
 	Player player = Player1;
 
-	Game(int prob) : prob(prob) {}
+	Game(unsigned short prob, std::string key) : prob(prob), key(key) {}
 
 
-	int reset() {
-		int result;
+	Player reset() {
+		Player result;
 		if (board.has_won(Player1))
-			result = 1;
+			result = Player1;
 		else if (board.has_won(Player2))
-			result = 2;
+			result = Player2;
 		else
-			result = 0;
+			result = Neutral;
 
-		if (prob != 0)
-			prob -= 1;
+		if (this->prob > 0)
+			--this->prob;
 
-		board = Board();
-		player = Player1;
+		this->board = Board{};
+		this->player = Player1;
+		this->dist = std::uniform_int_distribution<std::mt19937::result_type>{ 0, prob };
 		return result;
 	}
 
-	int has_finished() {
+	bool has_finished() {
 		return board.is_empty() || board.has_won(Player1) || board.has_won(Player2);
 	}
 
@@ -41,31 +51,36 @@ public:
 			return -1;
 		}
 
-		if (get_random()) {
-			auto moves = board.available_moves();
-			auto move = moves[std::uniform_int_distribution<std::mt19937::result_type>(0, moves.size() - 1)(rng)];
-			board[move] = Player1;
+		if (board.count() == 9 || dist(rng) == 0) {
+			auto move = board.available().begin();
+			move += std::uniform_int_distribution<std::mt19937::result_type>(0, board.count() - 1)(rng);
+			board.set(*move, Player1);
 			player = Player2;
-			return move + 100;
+
+			if (board.count() == 8)
+				return *move;
+			else
+				return *move + 100;
 		}
-
-		Move move = minimax(board, Player1);
-		board[move.move] = Player1;
-
-		player = Player2;
-		return move.move;
+		else
+		{
+			Move move = minimax(board, Player1);
+			board.set(move.move, Player1);
+			player = Player2;
+			return move.move;
+		}
 	}
 
 	int player_move(int move) {
 		if (player == Player1 || board[move] != Neutral)
 			return -10;
 
-		board[move] = Player2;
+		board.set(move, Player2);
 		player = Player1;
 		return move;
 	}
 
-	const char* get_key() {
+	const std::string& get_key() {
 		if (board.has_won(Player2))
 			return key;
 
@@ -74,10 +89,49 @@ public:
 
 
 private:
+	std::string key;
+	unsigned short prob;
 
-	bool get_random() {
-		static std::uniform_int_distribution<std::mt19937::result_type> dist(0, prob);
-		return dist(rng) == prob;
+	std::random_device dev{};
+	std::mt19937 rng{ dev() };
+	std::uniform_int_distribution<std::mt19937::result_type> dist{ 0, prob };
+
+
+	Move minimax(Board& board, Player player) {
+
+		if (board.has_won(player))
+			return { player, -1 };
+
+		if (board.is_empty())
+			return { Neutral, -1 };
+
+
+		Player score = Invalid;
+		int best_move = -1;
+
+		for (auto move : board.available())
+		{
+			board.set(move, player);
+			Player move_score = minimax(board, opponent(player)).eval;
+			board.set(move, Neutral);
+
+			if (move_score == score) {
+				static std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
+				best_move = dist(rng) ? move : best_move;
+			}
+
+			int old_score = score;
+
+			score = best_score(player, move_score, score);
+
+			if (score != old_score)
+				best_move = move;
+
+		}
+
+		return Move{ score, best_move };
+
 	}
+
 };
 

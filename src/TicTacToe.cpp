@@ -1,53 +1,20 @@
-﻿
-#include "Engine.hpp"
-#include "Game.hpp"
-
-#ifdef __EMSCRIPTEN__
+﻿#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #else
 #include <iostream>
+#define EMSCRIPTEN_KEEPALIVE
 #endif
 
+#ifndef TICTACTOE_WON_CODE
+#define TICTACTOE_WON_CODE alert("You won!!");
+#endif
 
-using namespace std;
+#define STRING_(str) #str
+#define STRING(str) STRING_(str)
 
+#include "Game.hpp"
 
-#ifndef __EMSCRIPTEN__ 
-void print_board(Board board) {
-	for (size_t i = 0; i < 9; i++)
-	{
-		std::cout << board[i];
-		if ((i % 3) == 2)
-			std::cout << "\n";
-	}
-}
-
-int main()
-{
-	Game game{12};
-	while (1)
-	{
-		while (!game.has_finished())
-		{
-			game.ai_move();
-			print_board(game.board);
-
-			if (game.has_finished())
-				continue;
-
-			std::cout << "> ";
-			int move;
-			std::cin >> move;
-			game.player_move(move);
-		}
-		game.reset();
-		std::cout << "--------\n";
-	}
-}
-
-#else
-
-Game game{8};
+Game game{12, STRING(TICTACTOE_WON_CODE) };
 
 extern "C" {
 	EMSCRIPTEN_KEEPALIVE
@@ -73,9 +40,40 @@ extern "C" {
 
 	EMSCRIPTEN_KEEPALIVE
 	const char* get_key() {
-		return game.get_key();
+		return game.get_key().c_str();
 	}
 }
 
-#endif
+#ifndef __EMSCRIPTEN__
+int main()
+{
+	for (;;)
+	{
+		while (!game.has_finished())
+		{
+			game.ai_move();
 
+			for (size_t i = 0; i < 9; i++)
+			{
+				std::cout << game.board[i];
+				if ((i % 3) == 2)
+					std::cout << "\n";
+			}
+
+			if (game.has_finished())
+				continue;
+
+			std::cout << "> ";
+			char move;
+			std::cin >> move;
+
+			if (move == 'q')
+				return 0;
+
+			game.player_move(move - '0');
+		}
+		game.reset();
+		std::cout << "--------\n";
+	}
+}
+#endif

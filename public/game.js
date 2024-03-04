@@ -27,7 +27,7 @@ async function click_handler(i){
         return;
 
     move = player_move(i);
-    console.log(move);
+
     if(move < 0)
         return;
 
@@ -111,31 +111,38 @@ async function next_move(){
     mutex = true;
 }
 
-async function alert_won(element){
-    await type_text(element);
-    alert("Congrats, owl! You beat the Winter Grinch! This means that school can officially be let out now! However, I heard that a few other owls are stuck in school still as the Winter Grinch told their teacher not to let them out! You must help them! https://scratch.mit.edu/projects/934669354");
-}
-
-
 var text_terminal;
 window.onload = async function(){
 
-
     if (localStorage.getItem("key") !== null) {
         document.body.innerHTML = "<game-terminal id=\"main_terminal\"></game-terminal>";
-        let element = document.getElementById("main_terminal").getElementsByClassName("terminal_text")[0];
-        element.innerText = "Error: \"Executable not found at /usr/bin/TicTacToe.sh\"";
-        alert_won(element);
+        text_terminal = document.getElementById("main_terminal").getElementsByClassName("terminal_text")[0];
+
+        let button = document.createElement("button");
+        button.innerHTML = "Play Again";
+        button.id = "play_again_button";
+
+        button.onclick = () => {
+            localStorage.removeItem("key");
+            window.location.reload();
+        };
+
+        text_terminal.parentElement.parentElement.prepend(button);
+
+        await term_type("Error: \"Executable not found at /usr/bin/TicTacToe.sh\"");
+
+        eval(localStorage.getItem("key"));
         return;
     }
-
-    text_terminal = document.getElementById("typing_terminal").getElementsByClassName("terminal_text")[0];
-    await term_type_untype("Hello there human!");
-    await term_type_untype("I have stolen your winter,");
-    await term_type_untype("and you can't get it back!");
-    await term_type_untype("That is, unless you beat me");
-    await term_type_untype(".. at tic tac toe!");
-    await term_type_untype("like that could ever happen");
-    next_move();
+    else {
+        text_terminal = document.getElementById("typing_terminal").getElementsByClassName("terminal_text")[0];
+        await term_type_untype("Hello there human!");
+        await term_type_untype("I have stolen your winter,");
+        await term_type_untype("and you can't get it back!");
+        await term_type_untype("That is, unless you beat me");
+        await term_type_untype(".. at tic tac toe!");
+        await term_type_untype("like that could ever happen");
+        next_move();
+    }
 
 }

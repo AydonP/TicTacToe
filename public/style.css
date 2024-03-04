@@ -20,9 +20,9 @@ html, body{
 
 game-box{
     display: block;
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
-    padding: 20px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    padding: 4px;
 }
 
 game-box > div {
@@ -34,12 +34,14 @@ game-box > div {
 }
 
 .snowman {
-    background-image: url("snowman.png");
+    background-image: url("snowman.svg");
+    background-size: contain;
 }
 
 
 .snowflake {
-    background-image: url("snowflake.png");
+    background-image: url("snowflake.svg");
+    background-size: contain;
 }
 
 game-box > div > img{
@@ -86,6 +88,10 @@ game-terminal > div {
     
     justify-content: flex-end;
     
+}
+
+.terminal_text {
+    height: fit-content;
 }
 
 
@@ -154,31 +160,6 @@ game-window > div{
     background-color: #1e1e1e;
 }
 
-#terminal_window {
-    position: absolute;
-    height: calc(300px);
-    width: calc(300px);
-    margin-top: 20px;
-    margin-left: 20px;
-    box-shadow: black 0 0 5px;
-}
-
-#board_window {
-    position: absolute;
-    margin-top: 35px;
-    margin-left: 75px;
-    height: calc(100% - 85px);
-    width: calc(100% - 75px *2);
-    box-shadow: black 0 0 5px;
-    display: flex;
-    flex-direction: column;
-}
-
-#board_window > div {
-    height: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
-    width: min(calc(100vh - 85px - 1.5em), calc(100vw - 150px));
-    align-self: center;
-}
 
 game-box {
     background-color: #80808021;
@@ -186,5 +167,120 @@ game-box {
 
 game-box:hover {
     background-color: #808080;
-    border-radius: 20px;
+    border-radius: 20%;
+}
+
+#board_window {
+    overflow: clip;
+}
+
+@media (height <= calc(100vw - 320px - 75px + 85px + 1.5em)) {
+
+    #terminal_window {
+        position: absolute;
+        height: calc(300px);
+        width: calc(300px);
+        margin-top: 20px;
+        margin-left: 20px;
+        box-shadow: black 0 0 5px;
+        z-index: 2;
+    }
+
+    #board_window {
+        position: absolute;
+        margin-top: 35px;
+        margin-left: 75px;
+        padding-left: calc(320px - 75px);
+        height: calc(100% - 85px);
+        width: calc(100% - 75px - 320px);
+        box-shadow: black 0 0 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #board_window > div {
+        height: calc(100vh - 85px - 1.5em);
+        width: calc(100vh - 85px - 1.5em);
+        align-self: center;
+    }
+
+}
+
+@media not (height <= calc(100vw - 320px - 75px + 85px + 1.5em)) {
+
+    @media (height <= 100vw) {
+        body {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #terminal_window {
+            width: calc(50vh - 20px);
+            height: calc(50vh - 20px);
+            margin: 10px;
+            align-self: center;
+        }
+
+        #board_window {
+            width: calc(100vw - (50vh - 20px) - 20px);
+            height: calc(100vh - 20px);
+            margin: 10px;
+            align-self: center;
+        }
+
+        game-box:hover {
+            border-radius: 30px;
+        }
+
+    }
+
+    @media (height > 100vw) {
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #terminal_window {
+            width: calc(100% - 20px);
+            height: 0;
+            flex-grow: 3;
+            margin: 10px;
+            align-self: center;
+        }
+
+        #board_window {
+            height: 0;
+            width: calc(100% - 20px);
+            flex-grow: 5;
+            margin: 10px;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #board_window > div {
+            height: min(calc((100vh * 5 / 8) - 20px - 1.5em), calc(100vw - 20px));
+            width: min(calc((100vh * 5 / 8) - 20px - 1.5em), calc(100vw - 20px));
+            margin-top: auto;
+            margin-bottom: auto;
+            align-self: center;
+        }
+    }
+
+}
+
+#play_again_button {
+    display: block;
+    width: 100px;
+    margin-bottom: auto;
+
+    border: 5px solid #0f0f0f; 
+    border-radius: 2px;
+
+    background: #1e1e1e;
+    color: hsl(144, 60%, 50%);
+}
+
+#play_again_button:hover{
+    background: #0f0f0f;
 }

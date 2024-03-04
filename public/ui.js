@@ -213,8 +213,10 @@ const delay = ms => new Promise(res => setTimeout(res, 2000));
 async function _type_text(element, durration, reverse = false){
     let animation = element.animate(
         [
-            { clipPath: "xywh(0 0 0 100%)"},
-            { clipPath: `xywh(0 0 ${element.innerText.length}ch 100%)` },
+            { clipPath: "polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%)"},
+            { clipPath: `polygon(0% 0%, 0% 100%, ${element.innerText.length}ch 100%, ${element.innerText.length}ch 0%)` },
+            //{ clipPath: "xywh(0 0 0 100%)"},
+            //{ clipPath: `xywh(0 0 ${element.innerText.length}ch 100%)` },
         ],
         {
             duration: element.innerText.length * durration,
