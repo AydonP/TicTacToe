@@ -1,5 +1,7 @@
 
 #include <random>
+#include <vector>
+
 #include "Board.hpp"
 
 const std::string empty_string = "";
@@ -107,7 +109,7 @@ private:
 
 
 		Player score = Invalid;
-		int best_move = -1;
+		std::vector<int> best_moves;
 
 		for (auto move : board.available())
 		{
@@ -116,20 +118,24 @@ private:
 			board.set(move, Neutral);
 
 			if (move_score == score) {
-				static std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
-				best_move = dist(rng) ? move : best_move;
+				best_moves.push_back(move);
 			}
+			else {
 
-			int old_score = score;
+				int old_score = score;
+				score = best_score(player, move_score, score);
 
-			score = best_score(player, move_score, score);
-
-			if (score != old_score)
-				best_move = move;
-
+				if (score != old_score) {
+					best_moves.clear();
+					best_moves.push_back(move);
+				}
+			}
 		}
 
-		return Move{ score, best_move };
+		return Move{ 
+			score, 
+			best_moves[ std::uniform_int_distribution<std::mt19937::result_type>{ 0, best_moves.size() - 1 }(rng) ]
+		};
 
 	}
 
