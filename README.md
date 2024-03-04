@@ -1,5 +1,5 @@
 <div align="center">
-  <img height="100px" src="https://github.com/AydonP/TicTacToe/assets/81772180/24a582b8-19f7-4a69-b53f-5ae2273c557a">
+  <img height="100px" src="https://github.com/AydonP/TicTacToe/assets/81772180/729609c1-1387-4b11-abb6-29e40f892a5a">
   <br>
   
   [<img src="https://github.com/AydonP/TicTacToe/actions/workflows/static.yml/badge.svg">](https://aydonp.github.io/TicTacToe/)
